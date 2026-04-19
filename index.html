@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEON 35 Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #c8a96e;
+      --dark: #111;
+      --darker: #0a0a0a;
+      --light: #f5f5f5;
+      --muted: #888;
+      --white: #fff;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 300;
+      color: var(--dark);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(8,8,8,0.96);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4rem;
+      height: 72px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo img {
+      height: 48px;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: #bbb;
+      text-decoration: none;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--white); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--darker);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('back.jpeg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 70% dark overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.70);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      padding: 0 2rem;
+    }
+
+    .hero-logo {
+      height: 90px;
+      margin: 0 auto 2.5rem;
+      display: block;
+      filter: brightness(1.1);
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.85;
+      max-width: 540px;
+      margin: 0 auto 2.8rem;
+      animation: fadeUp 0.9s 0.6s ease both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.8s ease both;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--darker);
+      padding: 0.9rem 2.5rem;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.2s;
+    }
+
+    .btn-gold:hover { background: #dfc085; transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid rgba(200,169,110,0.5);
+      color: var(--primary);
+      padding: 0.9rem 2.5rem;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .btn-ghost:hover { background: rgba(200,169,110,0.1); border-color: var(--primary); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Raleway', sans-serif;
+      animation: bounce 2s infinite;
+    }
+
+    .hero-scroll i { font-size: 1rem; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── BRANDS ── */
+    #brands {
+      background: #0d0d0d;
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brands-label {
+      text-align: center;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 2rem;
+    }
+
+    .brands-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.35;
+      transition: opacity 0.25s, filter 0.25s;
+    }
+
+    .brand-logo:hover {
+      opacity: 0.9;
+      filter: brightness(0) invert(1);
+    }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 6rem 4rem; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dark);
+      line-height: 1.1;
+    }
+
+    .section-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+      margin: 1.2rem auto 0;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: #0d0d0d; }
+
+    #projects .section-title { color: var(--white); }
+    #projects .section-eyebrow { color: var(--primary); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: #161616;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    /* YouTube thumbnail + click-to-play */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #0a0a0a;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .video-thumb {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, filter 0.3s ease;
+      filter: brightness(0.85);
+    }
+
+    .video-wrap:hover .video-thumb { transform: scale(1.04); filter: brightness(0.65); }
+
+    .play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      background: rgba(0,0,0,0.65);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s, transform 0.25s;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .play-btn i { color: var(--white); font-size: 1.3rem; margin-left: 4px; }
+
+    .video-wrap:hover .play-btn {
+      background: var(--primary);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-wrap.playing .video-thumb,
+    .video-wrap.playing .play-btn { display: none; }
+
+    .project-info {
+      padding: 1.4rem 1.6rem;
+    }
+
+    .project-type {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .project-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--light); }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      color: var(--dark);
+    }
+
+    .contact-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .contact-block .ci {
+      width: 38px; height: 38px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--darker);
+      font-size: 0.85rem;
+    }
+
+    .contact-block p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    .contact-block strong {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-block a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .contact-block a:hover { color: var(--primary); }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .contact-form .full { grid-column: 1 / -1; }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      background: var(--white);
+      border: 1px solid #ddd;
+      padding: 0.9rem 1.2rem;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--primary); }
+
+    .contact-form textarea { resize: vertical; min-height: 130px; }
+
+    .contact-form .form-btn { grid-column: 1 / -1; display: flex; gap: 1rem; }
+
+    .btn-submit {
+      background: var(--primary);
+      color: var(--darker);
+      border: none;
+      padding: 0.9rem 2.5rem;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover { background: #dfc085; }
+
+    .btn-reset {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid #ddd;
+      padding: 0.9rem 2rem;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.76rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-reset:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--darker); color: rgba(255,255,255,0.4); }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      padding: 5rem 4rem 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-logo-img { height: 55px; margin-bottom: 1.2rem; display: block; filter: brightness(0) invert(1); }
+
+    .footer-about { font-size: 0.85rem; line-height: 1.85; color: rgba(255,255,255,0.4); }
+
+    .footer-heading {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .footer-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--primary); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      font-size: 0.78rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      #nav { padding: 0 1.5rem; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: rgba(8,8,8,0.98); padding: 1.5rem 2rem; gap: 1.2rem; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+      section { padding: 4rem 1.5rem; }
+      #brands { padding: 2.5rem 1.5rem; }
+      .brands-row { gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-form { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; padding: 3rem 1.5rem 2rem; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <img src="Text01.png" alt="NEON 35 Media"/>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <img
+        src="Text01.png"
+        alt="NEON 35 Media"
+        class="hero-logo"
+      />
+      <h1 class="hero-title">Film Production,<br/>Vision Crafting</h1>
+      <p class="hero-sub">We create unique stylized films and commercial projects. NEON 35 Media is an international production house working with projects worldwide.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-gold">View Projects</a>
+        <a href="#contact" class="btn-ghost">Contact Us</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <i class="fas fa-chevron-down"></i>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands">
+    <p class="brands-label">Brands We've Worked With</p>
+    <div class="brands-row">
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Nat_Geo_logo.svg" alt="National Geographic"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Lux_logo.svg" alt="Lux"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Qoo10_logo.svg/320px-Qoo10_logo.svg.png" alt="Qoo10"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/320px-Shopee.svg.png" alt="Shopee"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Lazada_Logo.svg/320px-Lazada_Logo.svg.png" alt="Lazada"/>
+      <img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg" alt="H&M"/>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Our Work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'8F5_ojyeGHo')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/8F5_ojyeGHo/maxresdefault.jpg" alt="FAZZ - Blame"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Music Video</p>
+          <p class="project-title">FAZZ — Blame</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'fUsYuMpH5uo')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/fUsYuMpH5uo/maxresdefault.jpg" alt="Qoo10 Christmas"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Commercial</p>
+          <p class="project-title">Qoo10 Christmas</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'SvVmcffPRzc')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/SvVmcffPRzc/maxresdefault.jpg" alt="GLUM Short Film"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Short Film</p>
+          <p class="project-title">GLUM</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'mj2zNRokBco')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/mj2zNRokBco/maxresdefault.jpg" alt="Netflix Black Knight"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Commercial</p>
+          <p class="project-title">Netflix Black Knight</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'iJi4E1n_CgM')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/iJi4E1n_CgM/maxresdefault.jpg" alt="Dutch Lady"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Commercial</p>
+          <p class="project-title">Dutch Lady — Juice Up, Vogue Up</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'kbjKJHSa3nU')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/kbjKJHSa3nU/maxresdefault.jpg" alt="National Geographic"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Documentary</p>
+          <p class="project-title">National Geographic — Art of Wayang Kulit</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'nDr2e2_7BVI')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/nDr2e2_7BVI/maxresdefault.jpg" alt="OBSCR"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Fashion</p>
+          <p class="project-title">OBSCR — Undiscovered Limit</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'qsXCujpghws')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/qsXCujpghws/maxresdefault.jpg" alt="Love Yourself"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Fashion</p>
+          <p class="project-title">Love Yourself</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="video-wrap" onclick="playVideo(this,'XFtY6sXDd1g')">
+          <img class="video-thumb" src="https://img.youtube.com/vi/XFtY6sXDd1g/maxresdefault.jpg" alt="CODEHEART"/>
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="project-info">
+          <p class="project-type">Dance</p>
+          <p class="project-title">CODEHEART</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Reach Out</p>
+      <h2 class="section-title">Contact Us</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="contact-wrapper">
+      <div class="contact-info reveal">
+        <h3>Get In Touch</h3>
+        <div class="contact-block">
+          <div class="ci"><i class="fas fa-envelope"></i></div>
+          <p>
+            <strong>Email</strong>
+            <a href="/cdn-cgi/l/email-protection#440a010b0a77710901000d05040309050d086a070b09"><span class="__cf_email__" data-cfemail="135d565c5d20265e56575a5253545e525a5f3d505c5e">[email&#160;protected]</span></a>
+          </p>
+        </div>
+      </div>
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <input type="text" placeholder="Name" required/>
+        <input type="email" placeholder="Email *" required/>
+        <textarea class="full" placeholder="Message" rows="5"></textarea>
+        <div class="form-btn">
+          <button type="submit" class="btn-submit">Send</button>
+          <button type="reset" class="btn-reset">Reset</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <img
+          src="Text01.png"
+          alt="NEON 35 Media"
+          class="footer-logo-img"
+        />
+        <p class="footer-about">We create unique stylized films and commercial projects. NEON 35 Media is an international production house working with projects worldwide.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Contact</p>
+        <ul class="footer-links">
+          <li><a href="/cdn-cgi/l/email-protection#6e202b21205d5b232b2a272f2e29232f2722402d2123"><span class="__cf_email__" data-cfemail="f8b6bdb7b6cbcdb5bdbcb1b9b8bfb5b9b1b4d6bbb7b5">[email&#160;protected]</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Copyright © 2026 NEON 35 Media — All Rights Reserved.</span>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Click-to-play YouTube
+    function playVideo(wrap, id) {
+      wrap.classList.add('playing');
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+      wrap.appendChild(iframe);
+    }
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+      });
+    }, { threshold: 0.08 });
+    revealEls.fo
